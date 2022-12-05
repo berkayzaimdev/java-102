@@ -1,2 +1,1 @@
-# java-102
-Practices and homeworks for patika.dev java102 course
+# [Patika.dev hesabım](https://app.patika.dev/berkayzaim)
