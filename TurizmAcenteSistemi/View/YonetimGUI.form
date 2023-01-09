@@ -151,7 +151,7 @@
                       <text value="Tesis Özellikleri"/>
                     </properties>
                   </component>
-                  <component id="46110" class="javax.swing.JCheckBox">
+                  <component id="46110" class="javax.swing.JCheckBox" binding="chk01">
                     <constraints>
                       <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -175,7 +175,7 @@
                       <text value="Ekle"/>
                     </properties>
                   </component>
-                  <component id="7ef0b" class="javax.swing.JCheckBox" default-binding="true">
+                  <component id="7ef0b" class="javax.swing.JCheckBox" binding="chk02">
                     <constraints>
                       <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -183,7 +183,7 @@
                       <text value="Her Şey Dahil"/>
                     </properties>
                   </component>
-                  <component id="8ef51" class="javax.swing.JCheckBox">
+                  <component id="8ef51" class="javax.swing.JCheckBox" binding="chk03">
                     <constraints>
                       <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -191,7 +191,7 @@
                       <text value="Oda Kahvaltı"/>
                     </properties>
                   </component>
-                  <component id="bbe50" class="javax.swing.JCheckBox" default-binding="true">
+                  <component id="bbe50" class="javax.swing.JCheckBox" binding="chk04">
                     <constraints>
                       <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -199,7 +199,7 @@
                       <text value="Tam Pansiyon"/>
                     </properties>
                   </component>
-                  <component id="60206" class="javax.swing.JCheckBox">
+                  <component id="60206" class="javax.swing.JCheckBox" binding="chk05">
                     <constraints>
                       <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -207,7 +207,7 @@
                       <text value="Yarım Pansiyon"/>
                     </properties>
                   </component>
-                  <component id="53ddd" class="javax.swing.JCheckBox" default-binding="true">
+                  <component id="53ddd" class="javax.swing.JCheckBox" binding="chk06">
                     <constraints>
                       <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -215,7 +215,7 @@
                       <text value="Sadece Yatak"/>
                     </properties>
                   </component>
-                  <component id="33d30" class="javax.swing.JCheckBox">
+                  <component id="33d30" class="javax.swing.JCheckBox" binding="chk07">
                     <constraints>
                       <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -223,7 +223,7 @@
                       <text value="Alkol Hariç Full Credit"/>
                     </properties>
                   </component>
-                  <component id="c8556" class="javax.swing.JCheckBox">
+                  <component id="c8556" class="javax.swing.JCheckBox" binding="chk11">
                     <constraints>
                       <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -231,7 +231,7 @@
                       <text value="Ücretsiz Otopark"/>
                     </properties>
                   </component>
-                  <component id="4133a" class="javax.swing.JCheckBox" default-binding="true">
+                  <component id="4133a" class="javax.swing.JCheckBox" binding="chk12">
                     <constraints>
                       <grid row="16" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -239,7 +239,7 @@
                       <text value="ÜcretsizWiFİ"/>
                     </properties>
                   </component>
-                  <component id="f0d44" class="javax.swing.JCheckBox">
+                  <component id="f0d44" class="javax.swing.JCheckBox" binding="chk13">
                     <constraints>
                       <grid row="17" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -247,7 +247,7 @@
                       <text value="YüzmeHavuzu"/>
                     </properties>
                   </component>
-                  <component id="cd0a5" class="javax.swing.JCheckBox" default-binding="true">
+                  <component id="cd0a5" class="javax.swing.JCheckBox" binding="chk14">
                     <constraints>
                       <grid row="17" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -255,7 +255,7 @@
                       <text value="Fitness Center"/>
                     </properties>
                   </component>
-                  <component id="efb66" class="javax.swing.JCheckBox">
+                  <component id="efb66" class="javax.swing.JCheckBox" binding="chk15">
                     <constraints>
                       <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -263,7 +263,7 @@
                       <text value="Hotel Concierge"/>
                     </properties>
                   </component>
-                  <component id="e61e0" class="javax.swing.JCheckBox" default-binding="true">
+                  <component id="e61e0" class="javax.swing.JCheckBox" binding="chk16">
                     <constraints>
                       <grid row="18" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -271,7 +271,7 @@
                       <text value="SPA"/>
                     </properties>
                   </component>
-                  <component id="3f017" class="javax.swing.JCheckBox">
+                  <component id="3f017" class="javax.swing.JCheckBox" binding="chk17">
                     <constraints>
                       <grid row="19" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -292,6 +292,185 @@
               </grid>
             </children>
           </grid>
+          <grid id="f1852" binding="pnl_oda_add" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Odalar"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <scrollpane id="30ebf" binding="scr_oda_add">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="5be36" class="javax.swing.JTable" binding="tbl_oda_list">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+              <grid id="34cac" layout-manager="GridLayoutManager" row-count="18" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="46e9c" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Oda Tipi"/>
+                    </properties>
+                  </component>
+                  <hspacer id="68ad3">
+                    <constraints>
+                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <vspacer id="8ff9c">
+                    <constraints>
+                      <grid row="17" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </vspacer>
+                  <component id="bae6c" class="javax.swing.JComboBox" binding="cmb_oda_tip">
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <model>
+                        <item value=""/>
+                        <item value="Single"/>
+                        <item value="Double"/>
+                        <item value="Suit"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <component id="7b43b" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Yatak Sayısı"/>
+                    </properties>
+                  </component>
+                  <component id="9e07a" class="javax.swing.JTextField" binding="fld_oda_yatak">
+                    <constraints>
+                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="616e4" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Stok Sayısı"/>
+                    </properties>
+                  </component>
+                  <component id="911db" class="javax.swing.JTextField" binding="fld_oda_stok">
+                    <constraints>
+                      <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="7da88" class="javax.swing.JCheckBox" binding="chk_tv">
+                    <constraints>
+                      <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="TV"/>
+                    </properties>
+                  </component>
+                  <component id="b0e95" class="javax.swing.JCheckBox" binding="chk_minibar">
+                    <constraints>
+                      <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Minibar"/>
+                    </properties>
+                  </component>
+                  <component id="413bf" class="javax.swing.JCheckBox" binding="chk_oyunkonsolu">
+                    <constraints>
+                      <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Oyun Konsolu"/>
+                    </properties>
+                  </component>
+                  <component id="24353" class="javax.swing.JButton" binding="btn_oda_add">
+                    <constraints>
+                      <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Oda Ekle"/>
+                    </properties>
+                  </component>
+                  <component id="be90a" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Metrekare"/>
+                    </properties>
+                  </component>
+                  <component id="36572" class="javax.swing.JTextField" binding="fld_oda_m2">
+                    <constraints>
+                      <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="73f6b" class="javax.swing.JCheckBox" binding="chk_kasa">
+                    <constraints>
+                      <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Kasa"/>
+                    </properties>
+                  </component>
+                  <component id="82d96" class="javax.swing.JCheckBox" binding="chk_projeksiyon">
+                    <constraints>
+                      <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Projeksiyon"/>
+                    </properties>
+                  </component>
+                  <vspacer id="92aba">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </vspacer>
+                  <component id="68b9b" class="javax.swing.JComboBox" binding="cmb_oda_otel">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="24099" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Otel"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
           <grid id="11f74" binding="pnl_rezervasyon_list" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
@@ -308,23 +487,9 @@
   <buttonGroups>
     <group name="chk_otel_tesis">
       <member id="8ef51"/>
-      <member id="8ef51"/>
-      <member id="60206"/>
-      <member id="bbe50"/>
-      <member id="53ddd"/>
-      <member id="33d30"/>
-      <member id="46110"/>
-      <member id="7ef0b"/>
     </group>
     <group name="chk_otel_pansiyon">
       <member id="cd0a5"/>
-      <member id="cd0a5"/>
-      <member id="e61e0"/>
-      <member id="4133a"/>
-      <member id="c8556"/>
-      <member id="f0d44"/>
-      <member id="efb66"/>
-      <member id="3f017"/>
     </group>
   </buttonGroups>
 </form>

@@ -1,12 +1,13 @@
 package TurizmAcenteSistemi.View;
-import PatikaKlonu.Model.Course;
 import TurizmAcenteSistemi.Helper.*;
+import TurizmAcenteSistemi.Model.Oda;
 import TurizmAcenteSistemi.Model.Otel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class YonetimGUI extends JFrame
 {
@@ -24,9 +25,32 @@ public class YonetimGUI extends JFrame
     private JComboBox cmb_otel_yildiz;
     private JButton btn_otel_add;
     private JPanel pnl_rezervasyon_list;
+    private JCheckBox chk01,chk02,chk03,chk04,chk05,chk06,chk07;
+    private JCheckBox chk11,chk12,chk13,chk14,chk15,chk16,chk17;
+    private JPanel pnl_oda_add;
+    private JScrollPane scr_oda_add;
+    private JTable tbl_oda_list;
+    private JComboBox cmb_oda_tip;
+    private JTextField fld_oda_yatak;
+    private JTextField fld_oda_stok;
+    private JCheckBox chk_tv;
+    private JCheckBox chk_minibar;
+    private JCheckBox chk_oyunkonsolu;
+    private JButton btn_oda_add;
+    private JTextField fld_oda_m2;
+    private JCheckBox chk_kasa;
+    private JCheckBox chk_projeksiyon;
+    private JComboBox<String> cmb_oda_otel;
+
+    private JCheckBox[] chk_otel_tesis={chk01,chk02,chk03,chk04,chk05,chk06,chk07};
+    private JCheckBox[] chk_otel_pansiyon={chk11,chk12,chk13,chk14,chk15,chk16,chk17};
+    private JPopupMenu otelMenu;
+
 
     private DefaultTableModel mdl_otel_list;
     private Object[] row_otel_list;
+    private DefaultTableModel mdl_oda_list;
+    private Object[] row_oda_list;
 
     public YonetimGUI()
     {
@@ -36,30 +60,106 @@ public class YonetimGUI extends JFrame
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
+
+        otelMenu = new JPopupMenu();
+        JMenuItem ozelliklerMenu = new JMenuItem("Özellikler");
+        otelMenu.add(ozelliklerMenu);
+
         mdl_otel_list = new DefaultTableModel();
         Object[] col_otel_list = {"ID","Otel Adı","Adres","Eposta","Telefon Numarası","Yıldız"};
         mdl_otel_list.setColumnIdentifiers(col_otel_list);
         row_otel_list = new Object[col_otel_list.length];
-        tbl_otel_list.setModel(mdl_otel_list);
         refreshOtel();
+        tbl_otel_list.setModel(mdl_otel_list);
+        tbl_otel_list.setComponentPopupMenu(otelMenu);
+
+
+        mdl_oda_list = new DefaultTableModel();
+        Object[] col_oda_list = {"ID","Otel Adı","Oda Tipi","Yatak Sayısı","Stok Sayısı","TV","Minibar","Oyun Konsolu","Kasa","Projeksiyon","Metrekare"};
+        mdl_oda_list.setColumnIdentifiers(col_oda_list);
+        row_oda_list = new Object[col_oda_list.length];
+        refreshOda();
+        tbl_oda_list.setModel(mdl_oda_list);
+        refreshCmbOtel();
 
         btn_otel_add.addActionListener(e ->
         {
-            if(Helper.isFieldEmpty(fld_otel_ad)||Helper.isFieldEmpty(fld_otel_adres)||Helper.isFieldEmpty(fld_otel_eposta)||Helper.isFieldEmpty(fld_otel_telefon))
+            if(Helper.isFieldEmpty(fld_otel_ad)||Helper.isFieldEmpty(fld_otel_adres)||Helper.isFieldEmpty(fld_otel_eposta)||Helper.isFieldEmpty(fld_otel_telefon)||cmb_otel_yildiz.getSelectedIndex()==0)
                 Helper.showMsg("fill");
             else
             {
-                refreshOtel();
+                String tesis="";
+                String pansiyon="";
+                for(JCheckBox chk : chk_otel_tesis)
+                {
+                    if(chk.isSelected())
+                        tesis+=chk.getText()+"\n";
+                }
+                for(JCheckBox chk : chk_otel_pansiyon)
+                {
+                    if(chk.isSelected())
+                        pansiyon+=chk.getText()+"\n";
+                }
+                if(Otel.add(fld_otel_ad.getText(),fld_otel_adres.getText(),fld_otel_eposta.getText(),fld_otel_telefon.getText(), Integer.parseInt(cmb_otel_yildiz.getSelectedItem().toString()),pansiyon,tesis))
+                {
+                    Helper.showMsg("done");
+                    refreshOtel();
+                }
+                else
+                    Helper.showMsg("error");
+            }
+        });
+
+        tbl_otel_list.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+                Point point = e.getPoint();
+                int selected_row = tbl_otel_list.rowAtPoint(point);
+                tbl_otel_list.setRowSelectionInterval(selected_row,selected_row);
+            }
+        });
+
+        ozelliklerMenu.addActionListener(e->
+        {
+            int select_id = Integer.parseInt(tbl_otel_list.getValueAt(tbl_otel_list.getSelectedRow(),0).toString());
+            OtelOzellikleriGUI otelOzellikleriGUI = new OtelOzellikleriGUI(Otel.getFetch(select_id));
+        });
+
+        btn_oda_add.addActionListener(e ->
+        {
+            if(cmb_oda_tip.getSelectedItem().toString().equals(null)
+                    ||Helper.isFieldEmpty(fld_oda_stok)
+                    ||Helper.isFieldEmpty(fld_oda_yatak)
+                    ||Helper.isFieldEmpty(fld_oda_m2))
+                Helper.showMsg("fill");
+            else
+            {
+                if(Oda.getFetch(cmb_oda_tip.getSelectedItem().toString(),Otel.getFetch(cmb_oda_otel.getSelectedItem().toString(),true).getId())!=null)
+                    Helper.showMsg("Aynı tipteki oda tekrar eklenemez!");
+                else if(Oda.add(Otel.getFetch(cmb_oda_otel.getSelectedItem().toString(),true).getId()
+                        ,cmb_oda_tip.getSelectedItem().toString()
+                        ,Integer.parseInt(fld_oda_stok.getText())
+                        ,Integer.parseInt(fld_oda_yatak.getText())
+                        ,Integer.parseInt(fld_oda_m2.getText()),
+                        chk_tv.isSelected(),
+                        chk_minibar.isSelected(),
+                        chk_oyunkonsolu.isSelected(),
+                        chk_kasa.isSelected(),
+                        chk_projeksiyon.isSelected()))
+                {
+                    Helper.showMsg("done");
+                    refreshOda();
+                }
             }
         });
     }
 
     public void refreshOtel()
     {
-        System.out.println("deneme");
         DefaultTableModel clearModel = (DefaultTableModel) tbl_otel_list.getModel();
         clearModel.setRowCount(0);
-        for(Otel obj :Otel.getList())
+        for(Otel obj : Otel.getList())
         {
             int i=0;
             row_otel_list[i++] = obj.getId();
@@ -70,6 +170,35 @@ public class YonetimGUI extends JFrame
             row_otel_list[i] = obj.getYildiz();
             mdl_otel_list.addRow(row_otel_list);
         }
+    }
+
+    public void refreshOda()
+    {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_oda_list.getModel();
+        clearModel.setRowCount(0);
+        for(Oda obj : Oda.getList())
+        {
+            int i=0;
+            row_oda_list[i++] = obj.getId();
+            row_oda_list[i++] = Otel.getFetch(obj.getOtel_id()).getAd();
+            row_oda_list[i++] = obj.getTip();
+            row_oda_list[i++] = obj.getYatak();
+            row_oda_list[i++] = obj.getStok();
+            row_oda_list[i++] = obj.isTv()?"Var":"Yok";
+            row_oda_list[i++] = obj.isMinibar()?"Var":"Yok";
+            row_oda_list[i++] = obj.isOyunkonsolu()?"Var":"Yok";
+            row_oda_list[i++] = obj.isKasa()?"Var":"Yok";
+            row_oda_list[i++] = obj.isProjeksiyon()?"Var":"Yok";
+            row_oda_list[i] = obj.getMetrekare();
+            mdl_oda_list.addRow(row_oda_list);
+        }
+    }
+
+    public void refreshCmbOtel()
+    {
+        cmb_oda_otel.removeAllItems();
+        for(Otel obj : Otel.getList())
+            cmb_oda_otel.addItem(obj.getAd());
     }
 
     public static void main(String[] args)
