@@ -28,6 +28,10 @@ public class Course
         this.educator = User.getFetch(user_id);
     }
 
+    public Course() {
+
+    }
+
 
     public int getId() {
         return id;
@@ -169,5 +173,61 @@ public class Course
             e.printStackTrace();
         }
         return true;
+    }
+
+    public static Course getFetch(int id)
+    {
+        String query = "SELECT * from course WHERE id = ?";
+        System.out.println("course id = "+id);
+        Course c = null;
+        try
+        {
+            PreparedStatement s = DBConnector.getInstance().prepareStatement(query);
+            s.setInt(1,id);
+            ResultSet rs = s.executeQuery();
+            while(rs.next())
+            {
+                c = new Course();
+                c.setName(rs.getString("name"));
+                c.setLang(rs.getString("lang"));
+                c.setPatika_id(rs.getInt("patika_id"));
+                c.setUser_id(rs.getInt("user_id"));
+                c.setPatika(Patika.getFetch(c.getPatika_id()));
+                c.setEducator(User.getFetch(c.getUser_id()));
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return c;
+    }
+
+    public static Course getFetch(String course_name)
+    {
+        String query = "SELECT * from course WHERE name = ?";
+        Course c = null;
+        try
+        {
+            PreparedStatement s = DBConnector.getInstance().prepareStatement(query);
+            s.setString(1,course_name);
+            ResultSet rs = s.executeQuery();
+            while(rs.next())
+            {
+                c = new Course();
+                c.setName(rs.getString("name"));
+                c.setLang(rs.getString("lang"));
+                c.setPatika_id(rs.getInt("patika_id"));
+                c.setUser_id(rs.getInt("user_id"));
+                c.setPatika(Patika.getFetch(c.getPatika_id()));
+                c.setEducator(User.getFetch(c.getUser_id()));
+            }
+
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return c;
     }
 }

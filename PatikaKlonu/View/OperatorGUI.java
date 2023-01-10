@@ -59,6 +59,8 @@ public class OperatorGUI extends JFrame
     private DefaultTableModel mdl_course_list;
     private Object[] row_course_list;
     private final Operator operator;
+
+
     public OperatorGUI(Operator operator){
         this.operator=operator;
         add(wrapper);
@@ -153,6 +155,8 @@ public class OperatorGUI extends JFrame
                     Helper.showMsg("error");
             }
         });
+
+
         mdl_patika_list=new DefaultTableModel();
         Object[] col_patika_list = {"ID","Patika Adı"};
         mdl_patika_list.setColumnIdentifiers(col_patika_list);
