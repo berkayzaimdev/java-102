@@ -38,6 +38,12 @@ public class EducatorGUI extends JFrame
     private User u;
     public EducatorGUI(User u)
     {
+        for(Course c : Course.getListByUser(u.getId()))
+        {
+            cmb_course_name.addItem(c.getName());
+            cmb_course_list.addItem(c.getName());
+        }
+
         this.u=u;
         Helper.setLayout();
         add(wrapper);
@@ -63,11 +69,6 @@ public class EducatorGUI extends JFrame
         tbl_icerik_list.setModel(mdl_icerik_list);
         refreshIcerikList();
 
-        for(Course c : Course.getListByUser(u.getId()))
-        {
-            cmb_course_name.addItem(c.getName());
-            cmb_course_list.addItem(c.getName());
-        }
         btn_icerik_add.addActionListener(e ->
         {
             if(Helper.isFieldEmpty(fld_icerik_name)||Helper.isFieldEmpty(fld_icerik_aciklama)||Helper.isFieldEmpty(fld_icerik_link)||cmb_course_list.getSelectedIndex()==0)
@@ -103,6 +104,7 @@ public class EducatorGUI extends JFrame
         clearModel.setRowCount(0);
         for(Icerik i : Icerik.getList())
         {
+            System.out.println("İçerik başlığı:"+i.getBaslik()+" İçerik açıklaması:"+i.getAciklama()+" İçerik linki:"+i.getLink());
             int j=0;
             row_icerik_list[j++]=i.getId();
             row_icerik_list[j++]=Course.getFetch(i.getCourse_id()).getName();

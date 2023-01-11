@@ -3,10 +3,7 @@ package PatikaKlonu.Model;
 import PatikaKlonu.Helper.DBConnector;
 import PatikaKlonu.Helper.Helper;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Icerik
@@ -95,6 +92,7 @@ public class Icerik
                 String link = rs.getString("link");
                 i = new Icerik(id,course_id,baslik,aciklama,link);
                 icerikler.add(i);
+                System.out.println("Başlık: "+i.getBaslik()+"\nAçıklama:"+aciklama);
             }
         }
         catch(SQLException e)
