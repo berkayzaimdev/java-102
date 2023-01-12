@@ -2,9 +2,7 @@ package PatikaKlonu.View;
 
 import PatikaKlonu.Helper.Config;
 import PatikaKlonu.Helper.Helper;
-import PatikaKlonu.Model.Course;
-import PatikaKlonu.Model.Icerik;
-import PatikaKlonu.Model.User;
+import PatikaKlonu.Model.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +25,10 @@ public class EducatorGUI extends JFrame
     private JTextField fld_icerik_link;
     private JButton btn_icerik_add;
     private JComboBox cmb_course_list;
+    private JTable tbl_quiz_list;
+    private JComboBox cmb_icerik_list;
+    private JTextField fld_soru_sayisi;
+    private JButton btn_quiz_add;
 
     private DefaultTableModel mdl_course_list;
     private Object[] row_course_list;
@@ -34,6 +36,8 @@ public class EducatorGUI extends JFrame
     private DefaultTableModel mdl_icerik_list;
     private Object[] row_icerik_list;
 
+    private DefaultTableModel mdl_quiz_list;
+    private Object[] row_quiz_list;
 
     private User u;
     public EducatorGUI(User u)
@@ -43,6 +47,8 @@ public class EducatorGUI extends JFrame
             cmb_course_name.addItem(c.getName());
             cmb_course_list.addItem(c.getName());
         }
+        for(Icerik i : Icerik.getList())
+            cmb_icerik_list.addItem(i.getBaslik());
 
         this.u=u;
         Helper.setLayout();
@@ -69,9 +75,16 @@ public class EducatorGUI extends JFrame
         tbl_icerik_list.setModel(mdl_icerik_list);
         refreshIcerikList();
 
+        mdl_quiz_list = new DefaultTableModel();
+        Object[] col_quiz_list = {"ID","İçerik Adı","Quiz","Soru Sayısı"};
+        mdl_quiz_list.setColumnIdentifiers(col_quiz_list);
+        row_quiz_list = new Object[col_quiz_list.length];
+        tbl_quiz_list.setModel(mdl_quiz_list);
+        refreshQuizList();
+
         btn_icerik_add.addActionListener(e ->
         {
-            if(Helper.isFieldEmpty(fld_icerik_name)||Helper.isFieldEmpty(fld_icerik_aciklama)||Helper.isFieldEmpty(fld_icerik_link)||cmb_course_list.getSelectedIndex()==0)
+            if(Helper.isFieldEmpty(fld_icerik_name)||Helper.isFieldEmpty(fld_icerik_aciklama)||Helper.isFieldEmpty(fld_icerik_link))
                 Helper.showMsg("fill");
             else
             {
@@ -79,6 +92,20 @@ public class EducatorGUI extends JFrame
                 {
                     Helper.showMsg("done");
                     refreshIcerikList();
+                }
+            }
+        });
+
+        btn_quiz_add.addActionListener(e ->
+        {
+            if(Helper.isFieldEmpty(fld_soru_sayisi))
+                Helper.showMsg("fill");
+            else
+            {
+                if(Quiz.add(cmb_icerik_list.getSelectedItem().toString(),Integer.parseInt(fld_soru_sayisi.getText())))
+                {
+                    Helper.showMsg("done");
+                    refreshQuizList();
                 }
             }
         });
@@ -104,7 +131,7 @@ public class EducatorGUI extends JFrame
         clearModel.setRowCount(0);
         for(Icerik i : Icerik.getList())
         {
-            System.out.println("İçerik başlığı:"+i.getBaslik()+" İçerik açıklaması:"+i.getAciklama()+" İçerik linki:"+i.getLink());
+            //System.out.println("İçerik başlığı:"+i.getBaslik()+" İçerik açıklaması:"+i.getAciklama()+" İçerik linki:"+i.getLink());
             int j=0;
             row_icerik_list[j++]=i.getId();
             row_icerik_list[j++]=Course.getFetch(i.getCourse_id()).getName();
@@ -112,6 +139,21 @@ public class EducatorGUI extends JFrame
             row_icerik_list[j++]=i.getAciklama();
             row_icerik_list[j]=i.getLink();
             mdl_icerik_list.addRow(row_icerik_list);
+        }
+    }
+
+    public void refreshQuizList()
+    {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_quiz_list.getModel();
+        clearModel.setRowCount(0);
+        for(Quiz q : Quiz.getList())
+        {
+            int i=0;
+            row_quiz_list[i++]=q.getId();
+            row_quiz_list[i++]=Icerik.getFetch(q.getIcerik_id()).getBaslik();
+            row_quiz_list[i++]="Quiz "+Quiz.getCount(q.getIcerik_id());
+            row_quiz_list[i]=q.getSoru_sayisi();
+            mdl_quiz_list.addRow(row_quiz_list);
         }
     }
 }

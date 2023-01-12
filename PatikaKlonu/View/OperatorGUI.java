@@ -58,9 +58,9 @@ public class OperatorGUI extends JFrame
     private JPopupMenu patikaMenu;
     private DefaultTableModel mdl_course_list;
     private Object[] row_course_list;
+
+
     private final Operator operator;
-
-
     public OperatorGUI(Operator operator){
         this.operator=operator;
         add(wrapper);

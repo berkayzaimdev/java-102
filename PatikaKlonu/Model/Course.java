@@ -178,7 +178,6 @@ public class Course
     public static Course getFetch(int id)
     {
         String query = "SELECT * from course WHERE id = ?";
-        System.out.println("course id = "+id);
         Course c = null;
         try
         {
@@ -207,6 +206,7 @@ public class Course
     {
         String query = "SELECT * from course WHERE name = ?";
         Course c = null;
+        System.out.println("Kurs tablosunda aranan değer :"+course_name);
         try
         {
             PreparedStatement s = DBConnector.getInstance().prepareStatement(query);
@@ -217,12 +217,12 @@ public class Course
                 c = new Course();
                 c.setName(rs.getString("name"));
                 c.setLang(rs.getString("lang"));
+                c.setId(rs.getInt("id"));
                 c.setPatika_id(rs.getInt("patika_id"));
                 c.setUser_id(rs.getInt("user_id"));
                 c.setPatika(Patika.getFetch(c.getPatika_id()));
                 c.setEducator(User.getFetch(c.getUser_id()));
             }
-
         }
         catch(SQLException e)
         {

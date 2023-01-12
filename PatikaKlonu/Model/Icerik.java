@@ -19,7 +19,6 @@ public class Icerik
         this.baslik = baslik;
         this.aciklama = aciklama;
         this.link = link;
-        //this.course = Course.getFetch(course);
     }
 
     public Icerik() {
@@ -116,6 +115,7 @@ public class Icerik
             s.setString(2,aciklama);
             s.setString(3,link);
             s.setInt(4,Course.getFetch(course_name).getId());
+            System.out.println(course_name);
             return s.executeUpdate()!=-1;
         }
         catch(SQLException e)
@@ -123,5 +123,57 @@ public class Icerik
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static Icerik getFetch(int id)
+    {
+        String sql = "SELECT * from icerik WHERE id = ?";
+        Icerik i = null;
+        try
+        {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                i=new Icerik();
+                i.setId(rs.getInt("id"));
+                i.setCourse_id(rs.getInt("course_id"));
+                i.setAciklama(rs.getString("aciklama"));
+                i.setBaslik(rs.getString("baslik"));
+                i.setLink(rs.getString("link"));
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    public static Icerik getFetch(String icerik_adi)
+    {
+        String sql = "SELECT * from icerik WHERE baslik = ?";
+        Icerik i = null;
+        try
+        {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
+            ps.setString(1,icerik_adi);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                i=new Icerik();
+                i.setId(rs.getInt("id"));
+                i.setCourse_id(rs.getInt("course_id"));
+                i.setAciklama(rs.getString("aciklama"));
+                i.setBaslik(rs.getString("baslik"));
+                i.setLink(rs.getString("link"));
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return i;
     }
 }
