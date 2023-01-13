@@ -19,6 +19,7 @@ public class Icerik
         this.baslik = baslik;
         this.aciklama = aciklama;
         this.link = link;
+        this.course=Course.getFetch(course_id);
     }
 
     public Icerik() {
@@ -91,7 +92,34 @@ public class Icerik
                 String link = rs.getString("link");
                 i = new Icerik(id,course_id,baslik,aciklama,link);
                 icerikler.add(i);
-                System.out.println("Başlık: "+i.getBaslik()+"\nAçıklama:"+aciklama);
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return icerikler;
+    }
+
+    public static ArrayList<Icerik> getListByStudent(int user_id)
+    {
+        ArrayList<Icerik> icerikler = new ArrayList<>();
+        Icerik i;
+        String sql = "SELECT * from icerik WHERE course_id IN (SELECT course_id from course_sign_in WHERE user_id = ?)";
+        try
+        {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
+            ps.setInt(1,user_id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                int id = rs.getInt("id");
+                int course_id = rs.getInt("course_id");
+                String baslik = rs.getString("baslik");
+                String aciklama = rs.getString("aciklama");
+                String link = rs.getString("link");
+                i = new Icerik(id,course_id,baslik,aciklama,link);
+                icerikler.add(i);
             }
         }
         catch(SQLException e)
@@ -103,10 +131,6 @@ public class Icerik
 
     public static boolean add(String baslik,String aciklama,String link,String course_name)
     {
-        System.out.println("Baslik:"+baslik);
-        System.out.println("Aciklama:"+aciklama);
-        System.out.println("Link:"+link);
-        System.out.println("Course name:"+course_name);
         String query="INSERT INTO icerik (baslik,aciklama,link,course_id)VALUES (?,?,?,?)";
         try
         {
@@ -136,12 +160,12 @@ public class Icerik
             ResultSet rs = ps.executeQuery();
             while(rs.next())
             {
-                i=new Icerik();
-                i.setId(rs.getInt("id"));
-                i.setCourse_id(rs.getInt("course_id"));
-                i.setAciklama(rs.getString("aciklama"));
-                i.setBaslik(rs.getString("baslik"));
-                i.setLink(rs.getString("link"));
+                int id2 = rs.getInt("id");
+                int course_id = rs.getInt("course_id");
+                String aciklama=rs.getString("aciklama");
+                String baslik = rs.getString("baslik");
+                String link = rs.getString("link");
+                i=new Icerik(id2,course_id,aciklama,baslik,link);
             }
         }
         catch(SQLException e)

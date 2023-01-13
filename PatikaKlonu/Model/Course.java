@@ -161,6 +161,62 @@ public class Course
         return courseList;
     }
 
+    public static ArrayList<Course> getListByStudent(int user_id)
+    {
+        ArrayList<Course> courseList = new ArrayList<>();
+        Course obj;
+        String sql = "SELECT * FROM course WHERE id NOT IN (SELECT course_id FROM course_sign_in WHERE user_id = ?) AND patika_id IN (SELECT patika_id FROM patika_sign_in WHERE user_id=?)";
+        try
+        {
+            PreparedStatement ps= DBConnector.getInstance().prepareStatement(sql);
+            ps.setInt(1,user_id);
+            ps.setInt(2,user_id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                int id = rs.getInt("id");
+                int userID=rs.getInt("user_id");
+                int patika_id=rs.getInt("patika_id");
+                String name = rs.getString("name");
+                String lang = rs.getString("lang");
+                obj = new Course(id,userID,patika_id,name,lang);
+                courseList.add(obj);
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return courseList;
+    }
+
+    public static ArrayList<Course> getListByStudent_2(int user_id)
+    {
+        ArrayList<Course> courseList = new ArrayList<>();
+        Course obj;
+        String sql = "SELECT * FROM course WHERE id IN (SELECT course_id FROM course_sign_in WHERE user_id = ?)";
+        try
+        {
+            PreparedStatement ps= DBConnector.getInstance().prepareStatement(sql);
+            ps.setInt(1,user_id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                int id = rs.getInt("id");
+                int userID=rs.getInt("user_id");
+                int patika_id=rs.getInt("patika_id");
+                String name = rs.getString("name");
+                String lang = rs.getString("lang");
+                obj = new Course(id,userID,patika_id,name,lang);
+                courseList.add(obj);
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return courseList;
+    }
 
     public static boolean delete(int id)
     {
@@ -206,7 +262,6 @@ public class Course
     {
         String query = "SELECT * from course WHERE name = ?";
         Course c = null;
-        System.out.println("Kurs tablosunda aranan değer :"+course_name);
         try
         {
             PreparedStatement s = DBConnector.getInstance().prepareStatement(query);

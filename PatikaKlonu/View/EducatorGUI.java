@@ -131,10 +131,9 @@ public class EducatorGUI extends JFrame
         clearModel.setRowCount(0);
         for(Icerik i : Icerik.getList())
         {
-            //System.out.println("İçerik başlığı:"+i.getBaslik()+" İçerik açıklaması:"+i.getAciklama()+" İçerik linki:"+i.getLink());
             int j=0;
             row_icerik_list[j++]=i.getId();
-            row_icerik_list[j++]=Course.getFetch(i.getCourse_id()).getName();
+            row_icerik_list[j++]=i.getCourse().getName();
             row_icerik_list[j++]=i.getBaslik();
             row_icerik_list[j++]=i.getAciklama();
             row_icerik_list[j]=i.getLink();
@@ -150,8 +149,8 @@ public class EducatorGUI extends JFrame
         {
             int i=0;
             row_quiz_list[i++]=q.getId();
-            row_quiz_list[i++]=Icerik.getFetch(q.getIcerik_id()).getBaslik();
-            row_quiz_list[i++]="Quiz "+Quiz.getCount(q.getIcerik_id());
+            row_quiz_list[i++]=q.getIcerik().getBaslik();
+            row_quiz_list[i++]="Quiz "+q.getCount();
             row_quiz_list[i]=q.getSoru_sayisi();
             mdl_quiz_list.addRow(row_quiz_list);
         }

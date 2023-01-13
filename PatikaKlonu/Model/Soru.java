@@ -98,6 +98,7 @@ public class Soru
 
     public static boolean add(String soru_name,String A,String B,String C,String D,String E,char dogru)
     {
+        String sql = "INSERT INTO soru(quiz_id,soru_name,A,B,C,D,E,dogru) VALUES(?,?,?,?,?,?,?)";
         return true;
     }
 }

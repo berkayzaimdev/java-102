@@ -19,13 +19,8 @@ public class AddSoruGUI extends JFrame{
     private JLabel lbl_soru;
     private int i;
 
-    public AddSoruGUI(int soru_sayisi,int i)
+    public AddSoruGUI(int soru_sayisi,int i,int quiz_id)
     {
-        System.out.println(i);
-        if(i==0) {
-            dispose();
-            System.out.println("İ = 0 oldu.");
-        }
         Helper.setLayout();
         add(wrapper);
         setSize(700,500);
@@ -35,12 +30,16 @@ public class AddSoruGUI extends JFrame{
         setTitle(Config.PROJECT_TITLE);
         setResizable(false);
         setVisible(true);
+        if(i==0) {
+            Helper.showMsg("done");
+            dispose();
+        }
         btn_soru_add.addActionListener(e->
         {
             if(Soru.add(fld_soru_name.getText(),fld_A.getText(),fld_B.getText(),fld_C.getText(),fld_D.getText(),fld_E.getText(),cmb_correct.getSelectedItem().toString().charAt(0)))
             {
                 dispose();
-                AddSoruGUI addSoruGUI = new AddSoruGUI(soru_sayisi,i-1);
+                AddSoruGUI addSoruGUI = new AddSoruGUI(soru_sayisi,i-1,quiz_id);
             }
         });
     }

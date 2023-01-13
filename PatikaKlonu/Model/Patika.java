@@ -3,10 +3,7 @@ package PatikaKlonu.Model;
 import PatikaKlonu.Helper.DBConnector;
 import com.mysql.cj.x.protobuf.MysqlxPrepare;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Patika
@@ -123,5 +120,28 @@ public class Patika
             e.printStackTrace();
         }
         return true;
+    }
+
+    public static ArrayList<Patika> getListByUser(int user_id)
+    {
+        ArrayList<Patika> patikalar = new ArrayList<>();
+        String sql = "SELECT * FROM patika WHERE id NOT IN (SELECT patika_id FROM patika_sign_in WHERE user_id = ?)";
+        try
+        {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
+            ps.setInt(1,user_id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                patikalar.add(new Patika(id,name));
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return patikalar;
     }
 }
