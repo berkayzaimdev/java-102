@@ -47,8 +47,7 @@ public class StudentGUI extends JFrame
     private Object[] row_icerik_list;
 
     private DefaultComboBoxModel mdl_quiz_list;
-    private JLabel lbl_soru;
-    private JRadioButton rdb_a,rdb_b,rdb_c,rdb_d,rdb_e;
+    private JPopupMenu degerlendir;
     public StudentGUI(User u)
     {
         this.u=u;
@@ -85,16 +84,26 @@ public class StudentGUI extends JFrame
         row_ders_list_2 = new Object[col_ders_list_2.length];
         refreshDersList_2();
 
+        degerlendir = new JPopupMenu();
+        JMenuItem degerlendirMenu = new JMenuItem("Değerlendir");
+        degerlendir.add(degerlendirMenu);
+
         mdl_icerik_list = new DefaultTableModel();
         Object[] col_icerik_list = {"ID","Ders Adı","İçerik Başlığı","İçerik Açıklaması","YouTube linki"};
         mdl_icerik_list.setColumnIdentifiers(col_icerik_list);
         tbl_icerik_list.setDefaultEditor(Object.class,null);
         tbl_icerik_list.setModel(mdl_icerik_list);
+        tbl_icerik_list.setComponentPopupMenu(degerlendir);
         row_icerik_list = new Object[col_icerik_list.length];
         refreshIcerikList();
 
         mdl_quiz_list = new DefaultComboBoxModel();
         cmb_quiz_list.setModel(mdl_quiz_list);
+
+        degerlendirMenu.addActionListener(e->
+        {
+            DegerlendirGUI degerlendirGUI = new DegerlendirGUI();
+        });
 
         tbl_patika_list.getSelectionModel().addListSelectionListener(e ->
         {

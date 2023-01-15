@@ -1,6 +1,5 @@
 package PatikaKlonu.View;
 
-import PatikaKlonu.Helper.Config;
 import PatikaKlonu.Helper.Helper;
 import PatikaKlonu.Model.User;
 
@@ -12,6 +11,7 @@ public class KayitOlGUI extends JFrame{
     private JTextField fld_user_uname;
     private JTextField fld_user_pass;
     private JButton btn_kayit;
+    private JButton btn_cikis;
 
     public KayitOlGUI()
     {
@@ -38,6 +38,11 @@ public class KayitOlGUI extends JFrame{
                     dispose();
                 }
             }
+        });
+        btn_cikis.addActionListener(e ->
+        {
+            dispose();
+            LoginGUI l = new LoginGUI();
         });
     }
 }
