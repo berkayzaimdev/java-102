@@ -111,18 +111,34 @@ public class Quiz
             PreparedStatement s = DBConnector.getInstance().prepareStatement(sql);
             s.setInt(1,Icerik.getFetch(icerik_adi).getId());
             s.setInt(2,soru_sayisi);
+            AddSoruGUI addSoruGUI;
             if(s.executeUpdate()!=-1)
             {
                 sql="SELECT * from quiz ORDER BY id DESC LIMIT 1";
-                Statement ps = DBConnector.getInstance().createStatement();
-                ResultSet rs = ps.executeQuery(sql);
-                AddSoruGUI addSoruGUI = new AddSoruGUI(soru_sayisi,soru_sayisi,rs.getInt("id"));
+                PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+                while(rs.next())
+                    addSoruGUI = new AddSoruGUI(soru_sayisi,soru_sayisi,rs.getInt("id"));
             }
         }
         catch(SQLException e)
         {
             e.printStackTrace();
         }
-        return false;
+        return true;
+    }
+
+    public static boolean delete(int id)
+    {
+        String query = "DELETE FROM quiz WHERE id = ?";
+        try
+        {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setInt(1,id);
+            return ps.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

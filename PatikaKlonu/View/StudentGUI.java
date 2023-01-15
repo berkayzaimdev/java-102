@@ -3,6 +3,7 @@ package PatikaKlonu.View;
 import PatikaKlonu.Helper.Config;
 import PatikaKlonu.Helper.DBConnector;
 import PatikaKlonu.Helper.Helper;
+import PatikaKlonu.Helper.Item;
 import PatikaKlonu.Model.Course;
 import PatikaKlonu.Model.Icerik;
 import PatikaKlonu.Model.Patika;
@@ -11,6 +12,7 @@ import PatikaKlonu.Model.User;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StudentGUI extends JFrame
@@ -29,6 +31,7 @@ public class StudentGUI extends JFrame
     private JTextField fld_icerik_id;
     private JComboBox cmb_quiz_list;
     private JButton btn_quiz_coz;
+    private JButton btn_cikis;
     private User u;
 
     private DefaultTableModel mdl_patika_list;
@@ -42,6 +45,10 @@ public class StudentGUI extends JFrame
 
     private DefaultTableModel mdl_icerik_list;
     private Object[] row_icerik_list;
+
+    private DefaultComboBoxModel mdl_quiz_list;
+    private JLabel lbl_soru;
+    private JRadioButton rdb_a,rdb_b,rdb_c,rdb_d,rdb_e;
     public StudentGUI(User u)
     {
         this.u=u;
@@ -50,13 +57,14 @@ public class StudentGUI extends JFrame
         setSize(700,500);
         setLocation(Helper.screenCenterPoint("x",getSize()),Helper.screenCenterPoint("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle(Config.PROJECT_TITLE);
+        setTitle("Öğrenci Paneli");
         setResizable(false);
         setVisible(true);
 
         mdl_patika_list = new DefaultTableModel();
         Object[] col_patika_list = {"ID","Patika Adı"};
         mdl_patika_list.setColumnIdentifiers(col_patika_list);
+        tbl_patika_list.setDefaultEditor(Object.class,null);
         tbl_patika_list.setModel(mdl_patika_list);
         row_patika_list = new Object[col_patika_list.length];
         refreshPatikaList();
@@ -64,6 +72,7 @@ public class StudentGUI extends JFrame
         mdl_ders_list = new DefaultTableModel();
         Object[] col_ders_list = {"ID","Patika Adı","Ders Adı"};
         mdl_ders_list.setColumnIdentifiers(col_ders_list);
+        tbl_ders_list.setDefaultEditor(Object.class,null);
         tbl_ders_list.setModel(mdl_ders_list);
         row_ders_list = new Object[col_ders_list.length];
         refreshDersList();
@@ -71,6 +80,7 @@ public class StudentGUI extends JFrame
         mdl_ders_list_2 = new DefaultTableModel();
         Object[] col_ders_list_2 = {"ID","Patika Adı","Ders Adı"};
         mdl_ders_list_2.setColumnIdentifiers(col_ders_list_2);
+        tbl_ders_list_2.setDefaultEditor(Object.class,null);
         tbl_ders_list_2.setModel(mdl_ders_list_2);
         row_ders_list_2 = new Object[col_ders_list_2.length];
         refreshDersList_2();
@@ -78,9 +88,13 @@ public class StudentGUI extends JFrame
         mdl_icerik_list = new DefaultTableModel();
         Object[] col_icerik_list = {"ID","Ders Adı","İçerik Başlığı","İçerik Açıklaması","YouTube linki"};
         mdl_icerik_list.setColumnIdentifiers(col_icerik_list);
+        tbl_icerik_list.setDefaultEditor(Object.class,null);
         tbl_icerik_list.setModel(mdl_icerik_list);
         row_icerik_list = new Object[col_icerik_list.length];
         refreshIcerikList();
+
+        mdl_quiz_list = new DefaultComboBoxModel();
+        cmb_quiz_list.setModel(mdl_quiz_list);
 
         tbl_patika_list.getSelectionModel().addListSelectionListener(e ->
         {
@@ -105,6 +119,7 @@ public class StudentGUI extends JFrame
             try
             {
                 fld_icerik_id.setText(tbl_icerik_list.getValueAt(tbl_icerik_list.getSelectedRow(), 0).toString());
+                refreshCmbQuizList(Integer.parseInt(tbl_icerik_list.getValueAt(tbl_icerik_list.getSelectedRow(), 0).toString()));
             }
             catch(Exception ex){}
         });
@@ -142,6 +157,41 @@ public class StudentGUI extends JFrame
                 else
                     Helper.showMsg("error");
             }
+        });
+
+        btn_quiz_coz.addActionListener(e->
+        {
+            if(Helper.isFieldEmpty(fld_icerik_id)||cmb_quiz_list.getSelectedItem()==null)
+                Helper.showMsg("fill");
+            else
+            {
+                String sql="SELECT * from quiz WHERE icerik_id = ? ORDER BY id ASC LIMIT ?,1";
+                try
+                {
+                    PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
+                    ps.setInt(1,Integer.parseInt(fld_icerik_id.getText()));
+                    ps.setInt(2,Integer.parseInt(cmb_quiz_list.getSelectedItem().toString().split(" ")[1])-1);
+                    ResultSet rs = ps.executeQuery();
+                    while(rs.next())
+                    {
+                        int quiz_id = rs.getInt("id");
+                        int soru_sayisi = rs.getInt("soru_sayisi");
+                        int dogru=0;
+                        Helper.setLayout();
+                        SoruCozumGUI sorucozumGUI = new SoruCozumGUI(quiz_id,soru_sayisi,0);
+                    }
+                }
+                catch(SQLException er)
+                {
+                    er.printStackTrace();
+                }
+            }
+        });
+
+        btn_cikis.addActionListener(e ->
+        {
+            dispose();
+            LoginGUI l = new LoginGUI();
         });
     }
 
@@ -185,6 +235,27 @@ public class StudentGUI extends JFrame
             row_ders_list_2[i++]=d.getPatika().getName();
             row_ders_list_2[i]=d.getName();
             mdl_ders_list_2.addRow(row_ders_list_2);
+        }
+    }
+
+    public void refreshCmbQuizList(int id)
+    {
+        String sql = "SELECT * from quiz WHERE icerik_id = ?";
+        cmb_quiz_list.removeAllItems();
+        int i=0;
+        try
+        {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                cmb_quiz_list.addItem(new Item(++i,"Quiz "+i));
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
         }
     }
 

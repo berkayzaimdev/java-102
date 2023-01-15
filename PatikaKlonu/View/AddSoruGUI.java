@@ -36,7 +36,7 @@ public class AddSoruGUI extends JFrame{
         }
         btn_soru_add.addActionListener(e->
         {
-            if(Soru.add(fld_soru_name.getText(),fld_A.getText(),fld_B.getText(),fld_C.getText(),fld_D.getText(),fld_E.getText(),cmb_correct.getSelectedItem().toString().charAt(0)))
+            if(Soru.add(quiz_id,fld_soru_name.getText(),fld_A.getText(),fld_B.getText(),fld_C.getText(),fld_D.getText(),fld_E.getText(),cmb_correct.getSelectedItem().toString().charAt(0)))
             {
                 dispose();
                 AddSoruGUI addSoruGUI = new AddSoruGUI(soru_sayisi,i-1,quiz_id);

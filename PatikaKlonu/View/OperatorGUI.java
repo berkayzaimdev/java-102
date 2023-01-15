@@ -1,16 +1,12 @@
 package PatikaKlonu.View;
 import PatikaKlonu.Helper.*;
-import PatikaKlonu.Model.Course;
-import PatikaKlonu.Model.Operator;
-import PatikaKlonu.Model.Patika;
-import PatikaKlonu.Model.User;
+import PatikaKlonu.Model.*;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OperatorGUI extends JFrame
@@ -51,6 +47,12 @@ public class OperatorGUI extends JFrame
     private JComboBox cmb_course_user;
     private JButton btn_course_add;
     private JPanel pnl_user_top;
+    private JTable tbl_icerik_list;
+    private JTable tbl_quiz_list;
+    private JTextField fld_icerik_id;
+    private JButton btn_icerik_sil;
+    private JTextField fld_quiz_id;
+    private JButton btn_quiz_sil;
     private DefaultTableModel mdl_user_list;
     private Object[] row_user_list;
     private DefaultTableModel mdl_patika_list;
@@ -58,6 +60,10 @@ public class OperatorGUI extends JFrame
     private JPopupMenu patikaMenu;
     private DefaultTableModel mdl_course_list;
     private Object[] row_course_list;
+    private DefaultTableModel mdl_icerik_list;
+    private Object[] row_icerik_list;
+    private DefaultTableModel mdl_quiz_list;
+    private Object[] row_quiz_list;
 
 
     private final Operator operator;
@@ -67,7 +73,7 @@ public class OperatorGUI extends JFrame
         setSize(1000,500);
         setLocation(Helper.screenCenterPoint("x",getSize()),Helper.screenCenterPoint("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle(Config.PROJECT_TITLE);
+        setTitle("Yönetim Paneli");
         setVisible(true);
         lbl_welcome.setText("Hoşgeldiniz "+operator.getName());
 
@@ -97,6 +103,28 @@ public class OperatorGUI extends JFrame
             {
                 String select_user_id = tbl_user_list.getValueAt(tbl_user_list.getSelectedRow(), 0).toString();
                 fld_user_id.setText(select_user_id);
+            }
+            catch(Exception ex)
+            {}
+        });
+
+        tbl_icerik_list.getSelectionModel().addListSelectionListener(e ->
+        {
+            try
+            {
+                String select_icerik_id = tbl_icerik_list.getValueAt(tbl_icerik_list.getSelectedRow(), 0).toString();
+                fld_icerik_id.setText(select_icerik_id);
+            }
+            catch(Exception ex)
+            {}
+        });
+
+        tbl_quiz_list.getSelectionModel().addListSelectionListener(e ->
+        {
+            try
+            {
+                String select_quiz_id = tbl_quiz_list.getValueAt(tbl_quiz_list.getSelectedRow(), 0).toString();
+                fld_quiz_id.setText(select_quiz_id);
             }
             catch(Exception ex)
             {}
@@ -190,6 +218,21 @@ public class OperatorGUI extends JFrame
         loadPatikaCombo();
         loadEducatorCombo();
 
+
+        mdl_icerik_list = new DefaultTableModel();
+        Object[] col_icerik_list = {"ID","Ders ID","İçerik Başlığı","İçerik Açıklaması","Programlama Dili"};
+        mdl_icerik_list.setColumnIdentifiers(col_icerik_list);
+        row_icerik_list = new Object[col_icerik_list.length];
+        tbl_icerik_list.setModel(mdl_icerik_list);
+        loadIcerikModel();
+
+        mdl_quiz_list = new DefaultTableModel();
+        Object[] col_quiz_list = {"ID","İçerik ID","Soru Sayısı","Sıra"};
+        mdl_quiz_list.setColumnIdentifiers(col_quiz_list);
+        row_quiz_list = new Object[col_quiz_list.length];
+        tbl_quiz_list.setModel(mdl_quiz_list);
+        loadQuizModel();
+
         btn_user_add.addActionListener(e->
         {
             if(Helper.isFieldEmpty(fld_user_name)||Helper.isFieldEmpty(fld_user_uname)||Helper.isFieldEmpty(fld_user_pass))
@@ -278,6 +321,44 @@ public class OperatorGUI extends JFrame
                     Helper.showMsg("error");
             }
         });
+
+        btn_icerik_sil.addActionListener(e->
+        {
+            if(Helper.isFieldEmpty(fld_icerik_id))
+                Helper.showMsg("fill");
+            else
+            {
+                if(Helper.confirm("sure"))
+                {
+                    if(Icerik.delete(Integer.parseInt(fld_icerik_id.getText())))
+                    {
+                        Helper.showMsg("done");
+                        loadIcerikModel();
+                        loadQuizModel();
+                    }
+                    else
+                        Helper.showMsg("error");
+                }
+            }
+        });
+        btn_quiz_sil.addActionListener(e->
+        {
+            if(Helper.isFieldEmpty(fld_quiz_id))
+                Helper.showMsg("fill");
+            else
+            {
+                if(Helper.confirm("sure"))
+                {
+                    if(Quiz.delete(Integer.parseInt(fld_quiz_id.getText())))
+                    {
+                        Helper.showMsg("done");
+                        loadQuizModel();
+                    }
+                    else
+                        Helper.showMsg("error");
+                }
+            }
+        });
         btn_cikis.addActionListener(e ->
         {
             dispose();
@@ -357,18 +438,36 @@ public class OperatorGUI extends JFrame
         cmb_course_user.removeAllItems();
         for(User obj : User.getListOnlyEducator())
             cmb_course_user.addItem(new Item(obj.getId(), obj.getName()));
-
     }
 
-    public static void main(String[] args) throws SQLException
+    public void loadIcerikModel()
     {
-        Helper.setLayout();
-        Operator op = new Operator();
-        op.setId(1);
-        op.setName("Berkay Zaim");
-        op.setPass("1234");
-        op.setUname("berkay");
-        op.setType("operator");
-        OperatorGUI opGUI = new OperatorGUI(op);
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_icerik_list.getModel();
+        clearModel.setRowCount(0);
+        for(Icerik obj : Icerik.getList())
+        {
+            int i=0;
+            row_icerik_list[i++] = obj.getId();
+            row_icerik_list[i++] = obj.getCourse_id();
+            row_icerik_list[i++] = obj.getBaslik();
+            row_icerik_list[i++] = obj.getAciklama();
+            row_icerik_list[i] = obj.getLink();
+            mdl_icerik_list.addRow(row_icerik_list);
+        }
+    }
+
+    public void loadQuizModel()
+    {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_quiz_list.getModel();
+        clearModel.setRowCount(0);
+        for(Quiz obj : Quiz.getList())
+        {
+            int i=0;
+            row_quiz_list[i++] = obj.getId();
+            row_quiz_list[i++] = obj.getIcerik_id();
+            row_quiz_list[i++] = obj.getSoru_sayisi();
+            row_quiz_list[i] = "Quiz "+obj.getCount(obj.getIcerik_id(),obj.getId());
+            mdl_quiz_list.addRow(row_quiz_list);
+        }
     }
 }

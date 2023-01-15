@@ -6,8 +6,6 @@ import PatikaKlonu.Model.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EducatorGUI extends JFrame
 {
@@ -29,6 +27,7 @@ public class EducatorGUI extends JFrame
     private JComboBox cmb_icerik_list;
     private JTextField fld_soru_sayisi;
     private JButton btn_quiz_add;
+    private JButton btn_cikis;
 
     private DefaultTableModel mdl_course_list;
     private Object[] row_course_list;
@@ -47,7 +46,7 @@ public class EducatorGUI extends JFrame
             cmb_course_name.addItem(c.getName());
             cmb_course_list.addItem(c.getName());
         }
-        for(Icerik i : Icerik.getList())
+        for(Icerik i : Icerik.getListByUser(u.getId()))
             cmb_icerik_list.addItem(i.getBaslik());
 
         this.u=u;
@@ -57,7 +56,7 @@ public class EducatorGUI extends JFrame
         setSize(700,500);
         setLocation(Helper.screenCenterPoint("x",getSize()),Helper.screenCenterPoint("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle(Config.PROJECT_TITLE);
+        setTitle("Eğitmen Paneli");
         setResizable(false);
         setVisible(true);
 
@@ -109,6 +108,12 @@ public class EducatorGUI extends JFrame
                 }
             }
         });
+
+        btn_cikis.addActionListener(e ->
+        {
+            dispose();
+            LoginGUI l = new LoginGUI();
+        });
     }
 
     public void refreshCourseList()
@@ -129,7 +134,7 @@ public class EducatorGUI extends JFrame
     {
         DefaultTableModel clearModel = (DefaultTableModel) tbl_icerik_list.getModel();
         clearModel.setRowCount(0);
-        for(Icerik i : Icerik.getList())
+        for(Icerik i : Icerik.getListByUser(u.getId()))
         {
             int j=0;
             row_icerik_list[j++]=i.getId();

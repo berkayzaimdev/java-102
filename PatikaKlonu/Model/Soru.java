@@ -1,6 +1,10 @@
 package PatikaKlonu.Model;
 
+import PatikaKlonu.Helper.DBConnector;
+
 import javax.swing.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class Soru
 {
@@ -96,9 +100,26 @@ public class Soru
         this.dogru = dogru;
     }
 
-    public static boolean add(String soru_name,String A,String B,String C,String D,String E,char dogru)
+    public static boolean add(int quiz_id,String soru_name,String A,String B,String C,String D,String E,char dogru)
     {
-        String sql = "INSERT INTO soru(quiz_id,soru_name,A,B,C,D,E,dogru) VALUES(?,?,?,?,?,?,?)";
-        return true;
+        String sql = "INSERT INTO soru(quiz_id,soru_name,A,B,C,D,E,dogru) VALUES(?,?,?,?,?,?,?,?)";
+        try
+        {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
+            ps.setInt(1,quiz_id);
+            ps.setString(2,soru_name);
+            ps.setString(3,A);
+            ps.setString(4,B);
+            ps.setString(5,C);
+            ps.setString(6,D);
+            ps.setString(7,E);
+            ps.setString(8,Character.toString(dogru));
+            return ps.executeUpdate()!=-1;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

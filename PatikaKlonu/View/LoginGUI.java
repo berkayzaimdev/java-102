@@ -6,6 +6,8 @@ import PatikaKlonu.Model.Operator;
 import PatikaKlonu.Model.User;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LoginGUI extends JFrame
 {
@@ -15,6 +17,7 @@ public class LoginGUI extends JFrame
     private JTextField fld_user_uname;
     private JPasswordField fld_user_pass;
     private JButton btn_login;
+    private JButton btn_kayit;
 
     public LoginGUI()
     {
@@ -22,7 +25,7 @@ public class LoginGUI extends JFrame
         setSize(400,400);
         setLocation(Helper.screenCenterPoint("x",getSize()),Helper.screenCenterPoint("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle(Config.PROJECT_TITLE);
+        setTitle("Giriş Yap");
         setResizable(false);
         setVisible(true);
         btn_login.addActionListener(e->
@@ -51,6 +54,12 @@ public class LoginGUI extends JFrame
                     dispose();
                 }
             }
+        });
+
+        btn_kayit.addActionListener(e ->
+        {
+            KayitOlGUI k = new KayitOlGUI();
+            dispose();
         });
     }
 

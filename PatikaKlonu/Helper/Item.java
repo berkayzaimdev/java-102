@@ -10,6 +10,11 @@ public class Item
         this.key=key;
         this.value=value;
     }
+    public Item(String key,int value)
+    {
+        this.key=value;
+        this.value=key;
+    }
 
     public int getKey() {
         return key;

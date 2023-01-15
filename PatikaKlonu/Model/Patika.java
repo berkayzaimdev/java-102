@@ -111,7 +111,18 @@ public class Patika
         ArrayList<Course> courseList = Course.getList();
         for(Course c : courseList)
             if(c.getPatika().getId()==id)
+            {
                 Course.delete(c.getId());
+                for(Icerik i : Icerik.getList())
+                    if (i.getCourse_id() == c.getId())
+                    {
+                        Icerik.delete(i.getId());
+                        for (Quiz q : Quiz.getList())
+                            if (q.getIcerik_id() == i.getId())
+                                Quiz.delete(q.getId());
+                    }
+            }
+
         try {
             PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
             ps.setInt(1,id);

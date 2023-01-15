@@ -74,15 +74,16 @@ public class Icerik
         this.link = link;
     }
 
-    public static ArrayList<Icerik> getList()
+    public static ArrayList<Icerik> getListByUser(int user_id)
     {
         Icerik i = null;
         ArrayList<Icerik> icerikler = new ArrayList<>();
-        String sql = "SELECT * from icerik";
+        String sql = "SELECT * from icerik WHERE course_id IN(SELECT course_id FROM course WHERE user_id = ?)";
         try
         {
-            Statement ps = DBConnector.getInstance().createStatement();
-            ResultSet rs = ps.executeQuery(sql);
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
+            ps.setInt(1,user_id);
+            ResultSet rs = ps.executeQuery();
             while(rs.next())
             {
                 int id = rs.getInt("id");
@@ -110,6 +111,33 @@ public class Icerik
         {
             PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
             ps.setInt(1,user_id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                int id = rs.getInt("id");
+                int course_id = rs.getInt("course_id");
+                String baslik = rs.getString("baslik");
+                String aciklama = rs.getString("aciklama");
+                String link = rs.getString("link");
+                i = new Icerik(id,course_id,baslik,aciklama,link);
+                icerikler.add(i);
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return icerikler;
+    }
+
+    public static ArrayList<Icerik> getList()
+    {
+        ArrayList<Icerik> icerikler = new ArrayList<>();
+        Icerik i;
+        String sql = "SELECT * from icerik";
+        try
+        {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next())
             {
@@ -199,5 +227,22 @@ public class Icerik
             e.printStackTrace();
         }
         return i;
+    }
+
+    public static boolean delete(int id)
+    {
+        String query = "DELETE FROM icerik WHERE id = ?";
+        for (Quiz q : Quiz.getList())
+            if (q.getIcerik_id() == id)
+                Quiz.delete(q.getId());
+        try
+        {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setInt(1,id);
+            return ps.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
