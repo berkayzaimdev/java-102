@@ -41,6 +41,8 @@ public class YonetimGUI extends JFrame
     private JCheckBox chk_kasa;
     private JCheckBox chk_projeksiyon;
     private JComboBox<String> cmb_oda_otel;
+    private JTable table1;
+    private JButton btn_rezervasyon;
 
     private JCheckBox[] chk_otel_tesis={chk01,chk02,chk03,chk04,chk05,chk06,chk07};
     private JCheckBox[] chk_otel_pansiyon={chk11,chk12,chk13,chk14,chk15,chk16,chk17};
@@ -128,10 +130,7 @@ public class YonetimGUI extends JFrame
 
         btn_oda_add.addActionListener(e ->
         {
-            if(cmb_oda_tip.getSelectedItem().toString().equals(null)
-                    ||Helper.isFieldEmpty(fld_oda_stok)
-                    ||Helper.isFieldEmpty(fld_oda_yatak)
-                    ||Helper.isFieldEmpty(fld_oda_m2))
+            if(cmb_oda_tip.getSelectedIndex()==0||Helper.isFieldEmpty(fld_oda_stok) ||Helper.isFieldEmpty(fld_oda_yatak) ||Helper.isFieldEmpty(fld_oda_m2))
                 Helper.showMsg("fill");
             else
             {

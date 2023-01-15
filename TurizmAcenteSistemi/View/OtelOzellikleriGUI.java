@@ -37,8 +37,5 @@ public class OtelOzellikleriGUI extends JFrame
         lst_otel_tesis.setModel(mdl_otel_tesis);
         lst_otel_pansiyon.setModel(mdl_otel_pansiyon);
     }
-    public static void main(String[] args)
-    {
-        Helper.setLayout();
-    }
+
 }
