@@ -1,4 +1,9 @@
 package TurizmAcenteSistemi.View;
 
-public class IletisimGUI {
+import javax.swing.*;
+
+public class IletisimGUI
+{
+
+    private JPanel wrapper;
 }
