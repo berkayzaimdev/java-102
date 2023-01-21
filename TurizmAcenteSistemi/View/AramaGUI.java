@@ -40,7 +40,7 @@ public class AramaGUI extends JFrame
                 else
                 {
                     dispose();
-                    RezervasyonGUI r = new RezervasyonGUI(o,spn_yetiskin_sayisi.getValue().toString(),spn_cocuk_sayisi.getValue().toString(),"1");
+                    RezervasyonGUI r = new RezervasyonGUI(o,spn_yetiskin_sayisi.getValue().toString(),spn_cocuk_sayisi.getValue().toString(),fld_otel_giris.getText(),fld_otel_cikis.getText());
                 }
             }
         });
