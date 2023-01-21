@@ -6,8 +6,6 @@ import TurizmAcenteSistemi.Model.Otel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -45,6 +43,8 @@ public class YonetimGUI extends JFrame
     private JComboBox<String> cmb_oda_otel;
     private JTable table1;
     private JButton btn_rezervasyon;
+    private JTextField fld_otel_sehir;
+    private JTextField fld_otel_bolge;
 
     private JCheckBox[] chk_otel_pansiyon={chk01,chk02,chk03,chk04,chk05,chk06,chk07};
     private JCheckBox[] chk_otel_tesis={chk11,chk12,chk13,chk14,chk15,chk16,chk17};
@@ -59,7 +59,7 @@ public class YonetimGUI extends JFrame
     public YonetimGUI()
     {
         add(wrapper);
-        setSize(1100,650);
+        setSize(1100,750);
         setLocation(Helper.screenCenterPoint("x",getSize()),Helper.screenCenterPoint("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
@@ -72,7 +72,7 @@ public class YonetimGUI extends JFrame
         otelMenu.add(fiyatlandirMenu);
 
         mdl_otel_list = new DefaultTableModel();
-        Object[] col_otel_list = {"ID","Otel Adı","Adres","Eposta","Telefon Numarası","Yıldız"};
+        Object[] col_otel_list = {"ID","Otel Adı","Şehir","Bölge","Adres","Eposta","Telefon Numarası","Yıldız"};
         mdl_otel_list.setColumnIdentifiers(col_otel_list);
         row_otel_list = new Object[col_otel_list.length];
         refreshOtel();
@@ -90,7 +90,7 @@ public class YonetimGUI extends JFrame
 
         btn_otel_add.addActionListener(e ->
         {
-            if(Helper.isFieldEmpty(fld_otel_ad)||Helper.isFieldEmpty(fld_otel_adres)||Helper.isFieldEmpty(fld_otel_eposta)||Helper.isFieldEmpty(fld_otel_telefon)||cmb_otel_yildiz.getSelectedIndex()==0)
+            if(Helper.isFieldEmpty(fld_otel_ad)||Helper.isFieldEmpty(fld_otel_sehir)||Helper.isFieldEmpty(fld_otel_bolge)||Helper.isFieldEmpty(fld_otel_adres)||Helper.isFieldEmpty(fld_otel_eposta)||Helper.isFieldEmpty(fld_otel_telefon)||cmb_otel_yildiz.getSelectedIndex()==0)
                 Helper.showMsg("fill");
             else
             {
@@ -106,7 +106,7 @@ public class YonetimGUI extends JFrame
                     if(chk.isSelected())
                         pansiyon+=chk.getText()+"\n";
                 }
-                if(Otel.add(fld_otel_ad.getText(),fld_otel_adres.getText(),fld_otel_eposta.getText(),fld_otel_telefon.getText(), Integer.parseInt(cmb_otel_yildiz.getSelectedItem().toString()),pansiyon,tesis))
+                if(Otel.add(fld_otel_ad.getText(),fld_otel_sehir.getText(),fld_otel_bolge.getText(),fld_otel_adres.getText(),fld_otel_eposta.getText(),fld_otel_telefon.getText(), Integer.parseInt(cmb_otel_yildiz.getSelectedItem().toString()),pansiyon,tesis))
                 {
                     Helper.showMsg("done");
                     refreshOtel();
@@ -179,6 +179,8 @@ public class YonetimGUI extends JFrame
             int i=0;
             row_otel_list[i++] = obj.getId();
             row_otel_list[i++] = obj.getAd();
+            row_otel_list[i++] = obj.getSehir();
+            row_otel_list[i++] = obj.getBolge();
             row_otel_list[i++] = obj.getAdres();
             row_otel_list[i++] = obj.getEposta();
             row_otel_list[i++] = obj.getTelefon();
@@ -215,6 +217,7 @@ public class YonetimGUI extends JFrame
         for(Otel obj : Otel.getList())
             cmb_oda_otel.addItem(obj.getAd());
     }
+
 
     public static void main(String[] args)
     {

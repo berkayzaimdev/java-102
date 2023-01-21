@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Oda
 {
     private int id,otel_id,yatak,stok,metrekare;
-    private String tip;
+    private String tip,otel_ad;
     private boolean tv,minibar,oyunkonsolu,kasa,projeksiyon;
     private Otel otel;
 
@@ -35,6 +35,14 @@ public class Oda
     public Oda()
     {
 
+    }
+
+    public String getOtel_ad() {
+        return otel_ad;
+    }
+
+    public void setOtel_ad(String otel_ad) {
+        this.otel_ad = otel_ad;
     }
 
     public Otel getOtel() {
@@ -144,19 +152,51 @@ public class Oda
             ResultSet rs = st.executeQuery(query);
             while(rs.next())
             {
-                obj = new Oda();
-                obj.setId(rs.getInt("id"));
-                obj.setOtel_id(rs.getInt("otel_id"));
-                obj.setTip(rs.getString("tip"));
-                obj.setYatak(rs.getInt("yatak"));
-                obj.setStok(rs.getInt("stok"));
-                obj.setTv(rs.getBoolean("tv"));
-                obj.setMinibar(rs.getBoolean("minibar"));
-                obj.setOyunkonsolu(rs.getBoolean("oyunkonsolu"));
-                obj.setKasa(rs.getBoolean("kasa"));
-                obj.setProjeksiyon(rs.getBoolean("projeksiyon"));
-                obj.setOtel(Otel.getFetch(rs.getInt("otel_id")));
-                obj.setMetrekare(rs.getInt("metrekare"));
+                int id=rs.getInt("id");
+                int otel_id=rs.getInt("otel_id");
+                String tip =rs.getString("tip");
+                int yatak=rs.getInt("yatak");
+                int stok=rs.getInt("stok");
+                boolean tv = rs.getBoolean("tv");
+                boolean minibar = rs.getBoolean("minibar");
+                boolean oyunkonsolu = rs.getBoolean("oyunkonsolu");
+                boolean kasa = rs.getBoolean("kasa");
+                boolean projeksiyon = rs.getBoolean("projeksiyon");
+                int metrekare = rs.getInt("metrekare");
+                obj = new Oda(id,otel_id,yatak,stok,metrekare,tip,tv,minibar,oyunkonsolu,kasa,projeksiyon);
+                list.add(obj);
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static ArrayList<Oda> getList(int otelid)
+    {
+        ArrayList<Oda> list = new ArrayList<>();
+        String query = "SELECT * FROM oda WHERE otel_id = "+otelid;
+        Oda obj=null;
+        try
+        {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while(rs.next())
+            {
+                int id=rs.getInt("id");
+                int otel_id=rs.getInt("otel_id");
+                String tip =rs.getString("tip");
+                int yatak=rs.getInt("yatak");
+                int stok=rs.getInt("stok");
+                boolean tv = rs.getBoolean("tv");
+                boolean minibar = rs.getBoolean("minibar");
+                boolean oyunkonsolu = rs.getBoolean("oyunkonsolu");
+                boolean kasa = rs.getBoolean("kasa");
+                boolean projeksiyon = rs.getBoolean("projeksiyon");
+                int metrekare = rs.getInt("metrekare");
+                obj = new Oda(id,otel_id,yatak,stok,metrekare,tip,tv,minibar,oyunkonsolu,kasa,projeksiyon);
                 list.add(obj);
             }
         }

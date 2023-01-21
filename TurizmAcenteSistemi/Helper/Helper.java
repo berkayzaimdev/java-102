@@ -68,6 +68,10 @@ public class Helper
                 msg="Toplam misafir sayısı sıfırdan büyük olmalı!";
                 title="Hata!";
                 break;
+            case "null":
+                msg="Aradığınız isimde bir otel bulunamadı!";
+                title="Hata!";
+                break;
             default:
                 msg=str;
                 title="Mesaj";

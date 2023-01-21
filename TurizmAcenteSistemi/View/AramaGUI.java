@@ -1,5 +1,7 @@
 package TurizmAcenteSistemi.View;
 import TurizmAcenteSistemi.Helper.*;
+import TurizmAcenteSistemi.Model.Otel;
+
 import javax.swing.*;
 
 public class AramaGUI extends JFrame
@@ -30,6 +32,17 @@ public class AramaGUI extends JFrame
                 Helper.showMsg("negative");
             else if(Integer.parseInt(spn_yetiskin_sayisi.getValue().toString())+Integer.parseInt(spn_cocuk_sayisi.getValue().toString())==0)
                 Helper.showMsg("zero");
+            else
+            {
+                Otel o = Otel.getFetch(fld_otel_ad.getText(),true,true);
+                if(o==null)
+                    Helper.showMsg("null");
+                else
+                {
+                    dispose();
+                    RezervasyonGUI r = new RezervasyonGUI(o,spn_yetiskin_sayisi.getValue().toString(),spn_cocuk_sayisi.getValue().toString(),"1");
+                }
+            }
         });
     }
 }
