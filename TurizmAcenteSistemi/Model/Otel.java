@@ -17,7 +17,7 @@ public class Otel
     public Otel()
     {
     }
-    public Otel(int id, int yildiz, String ad, String adres, String eposta, String telefon, String tesis,String pansiyon)
+    public Otel(int id, int yildiz, String ad, String adres, String eposta, String telefon, String pansiyon,String tesis)
     {
         this.id = id;
         this.yildiz = yildiz;
@@ -25,8 +25,8 @@ public class Otel
         this.adres = adres;
         this.eposta = eposta;
         this.telefon = telefon;
-        this.tesis=tesis;
         this.pansiyon=pansiyon;
+        this.tesis=tesis;
     }
 
     public int getId() {
@@ -97,7 +97,7 @@ public class Otel
     {
         ArrayList<Otel> list = new ArrayList<>();
         String query = "SELECT * FROM otel";
-        Otel obj;
+        Otel obj=null;
         try
         {
             Statement st = DBConnector.getInstance().createStatement();

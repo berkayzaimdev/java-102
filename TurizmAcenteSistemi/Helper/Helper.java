@@ -60,6 +60,14 @@ public class Helper
                 msg="Bir hata oluştu!";
                 title="Hata!";
                 break;
+            case "negative":
+                msg="Lütfen pozitif sayılar seçiniz!";
+                title="Hata!";
+                break;
+            case "zero":
+                msg="Toplam misafir sayısı sıfırdan büyük olmalı!";
+                title="Hata!";
+                break;
             default:
                 msg=str;
                 title="Mesaj";

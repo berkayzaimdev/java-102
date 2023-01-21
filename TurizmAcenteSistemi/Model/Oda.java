@@ -14,8 +14,10 @@ public class Oda
     private int id,otel_id,yatak,stok,metrekare;
     private String tip;
     private boolean tv,minibar,oyunkonsolu,kasa,projeksiyon;
+    private Otel otel;
 
-    public Oda(int id, int otel_id, int yatak, int stok, int metrekare, String tip, boolean tv, boolean minibar, boolean oyunkonsolu, boolean kasa, boolean projeksiyon) {
+    public Oda(int id, int otel_id, int yatak, int stok, int metrekare, String tip, boolean tv, boolean minibar, boolean oyunkonsolu, boolean kasa, boolean projeksiyon)
+    {
         this.id = id;
         this.otel_id = otel_id;
         this.yatak = yatak;
@@ -27,11 +29,20 @@ public class Oda
         this.oyunkonsolu = oyunkonsolu;
         this.kasa = kasa;
         this.projeksiyon = projeksiyon;
+        this.otel=Otel.getFetch(otel_id);
     }
 
     public Oda()
     {
 
+    }
+
+    public Otel getOtel() {
+        return otel;
+    }
+
+    public void setOtel(Otel otel) {
+        this.otel = otel;
     }
 
     public int getId() {
@@ -126,7 +137,7 @@ public class Oda
     {
         ArrayList<Oda> list = new ArrayList<>();
         String query = "SELECT * FROM oda";
-        Oda obj;
+        Oda obj=null;
         try
         {
             Statement st = DBConnector.getInstance().createStatement();
@@ -144,6 +155,7 @@ public class Oda
                 obj.setOyunkonsolu(rs.getBoolean("oyunkonsolu"));
                 obj.setKasa(rs.getBoolean("kasa"));
                 obj.setProjeksiyon(rs.getBoolean("projeksiyon"));
+                obj.setOtel(Otel.getFetch(rs.getInt("otel_id")));
                 obj.setMetrekare(rs.getInt("metrekare"));
                 list.add(obj);
             }
@@ -152,7 +164,6 @@ public class Oda
         {
             e.printStackTrace();
         }
-        System.out.println(list.get(0).getOtel_id());
         return list;
     }
 

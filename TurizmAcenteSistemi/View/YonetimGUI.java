@@ -6,6 +6,8 @@ import TurizmAcenteSistemi.Model.Otel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -44,8 +46,8 @@ public class YonetimGUI extends JFrame
     private JTable table1;
     private JButton btn_rezervasyon;
 
-    private JCheckBox[] chk_otel_tesis={chk01,chk02,chk03,chk04,chk05,chk06,chk07};
-    private JCheckBox[] chk_otel_pansiyon={chk11,chk12,chk13,chk14,chk15,chk16,chk17};
+    private JCheckBox[] chk_otel_pansiyon={chk01,chk02,chk03,chk04,chk05,chk06,chk07};
+    private JCheckBox[] chk_otel_tesis={chk11,chk12,chk13,chk14,chk15,chk16,chk17};
     private JPopupMenu otelMenu;
 
 
@@ -57,7 +59,7 @@ public class YonetimGUI extends JFrame
     public YonetimGUI()
     {
         add(wrapper);
-        setSize(1000,650);
+        setSize(1100,650);
         setLocation(Helper.screenCenterPoint("x",getSize()),Helper.screenCenterPoint("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
@@ -65,7 +67,9 @@ public class YonetimGUI extends JFrame
 
         otelMenu = new JPopupMenu();
         JMenuItem ozelliklerMenu = new JMenuItem("Özellikler");
+        JMenuItem fiyatlandirMenu = new JMenuItem("Fiyatlandır");
         otelMenu.add(ozelliklerMenu);
+        otelMenu.add(fiyatlandirMenu);
 
         mdl_otel_list = new DefaultTableModel();
         Object[] col_otel_list = {"ID","Otel Adı","Adres","Eposta","Telefon Numarası","Yıldız"};
@@ -106,6 +110,7 @@ public class YonetimGUI extends JFrame
                 {
                     Helper.showMsg("done");
                     refreshOtel();
+                    refreshCmbOtel();
                 }
                 else
                     Helper.showMsg("error");
@@ -126,6 +131,12 @@ public class YonetimGUI extends JFrame
         {
             int select_id = Integer.parseInt(tbl_otel_list.getValueAt(tbl_otel_list.getSelectedRow(),0).toString());
             OtelOzellikleriGUI otelOzellikleriGUI = new OtelOzellikleriGUI(Otel.getFetch(select_id));
+        });
+
+        fiyatlandirMenu.addActionListener(e->
+        {
+            int select_id = Integer.parseInt(tbl_otel_list.getValueAt(tbl_otel_list.getSelectedRow(),0).toString());
+            FiyatlandirGUI f = new FiyatlandirGUI(Otel.getFetch(select_id));
         });
 
         btn_oda_add.addActionListener(e ->
@@ -151,6 +162,11 @@ public class YonetimGUI extends JFrame
                     refreshOda();
                 }
             }
+        });
+
+        btn_rezervasyon.addActionListener(e ->
+        {
+            AramaGUI a = new AramaGUI();
         });
     }
 
@@ -179,7 +195,7 @@ public class YonetimGUI extends JFrame
         {
             int i=0;
             row_oda_list[i++] = obj.getId();
-            row_oda_list[i++] = Otel.getFetch(obj.getOtel_id()).getAd();
+            row_oda_list[i++] = obj.getOtel().getAd();
             row_oda_list[i++] = obj.getTip();
             row_oda_list[i++] = obj.getYatak();
             row_oda_list[i++] = obj.getStok();

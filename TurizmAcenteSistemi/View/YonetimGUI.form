@@ -143,7 +143,7 @@
                       <grid row="10" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text value="Tesis Özellikleri"/>
+                      <text value="Pansiyon Tipleri"/>
                     </properties>
                   </component>
                   <component id="46110" class="javax.swing.JCheckBox" binding="chk01">
@@ -159,7 +159,7 @@
                       <grid row="15" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text value="Pansiyon Tipleri"/>
+                      <text value="Tesis Özellikleri"/>
                     </properties>
                   </component>
                   <component id="95268" class="javax.swing.JButton" binding="btn_otel_add">
