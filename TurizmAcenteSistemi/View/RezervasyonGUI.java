@@ -142,18 +142,18 @@ public class RezervasyonGUI extends JFrame
             }
             else
             {
-                String sql2 = "SELECT stok from oda WHERE otel_id = "+o.getId()+" AND tip = ?";
+                String sql2 = "SELECT stok,id from oda WHERE otel_id = "+o.getId()+" AND tip = ?";
                 String sql3;
                 try
                 {
                     PreparedStatement ps2 = DBConnector.getInstance().prepareStatement(sql2);
                     ps2.setString(1,cmb_oda_tip.getSelectedItem().toString());
                     ResultSet rs2 = ps2.executeQuery();
-                    int stok=0;
+                    int stok=0,id=0;
                     while(rs2.next())
                     {
-                        System.out.println("stok bulundu");
-                        stok=rs2.getInt("stok");
+                        stok = rs2.getInt("stok");
+                        id = rs2.getInt("id");
                     }
                     if(stok>1)
                         sql3="UPDATE oda SET stok = "+(stok-1)+" WHERE otel_id = "+o.getId()+" AND tip = ?";
@@ -164,7 +164,7 @@ public class RezervasyonGUI extends JFrame
                     if(ps3.executeUpdate()!=-1)
                     {
                         dispose();
-                        IletisimGUI i = new IletisimGUI();
+                        IletisimGUI i = new IletisimGUI(Integer.parseInt(y),Integer.parseInt(c),id);
                     }
                 }
                 catch(SQLException er)
