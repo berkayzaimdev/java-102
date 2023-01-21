@@ -40,7 +40,7 @@ public class RezervasyonGUI extends JFrame
     private Otel o;
     private String donem;
 
-    public RezervasyonGUI(Otel o,String y,String c,String giris,String cikis)
+    public RezervasyonGUI(YonetimGUI main,Otel o,String y,String c,String giris,String cikis)
     {
         add(wrapper);
         this.o=o;
@@ -164,7 +164,8 @@ public class RezervasyonGUI extends JFrame
                     if(ps3.executeUpdate()!=-1)
                     {
                         dispose();
-                        IletisimGUI i = new IletisimGUI(Integer.parseInt(y),Integer.parseInt(c),id);
+                        main.refreshOda();
+                        IletisimGUI i = new IletisimGUI(main,Integer.parseInt(y),Integer.parseInt(c),id);
                     }
                 }
                 catch(SQLException er)

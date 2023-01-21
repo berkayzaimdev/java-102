@@ -1,9 +1,12 @@
 package TurizmAcenteSistemi.View;
 import TurizmAcenteSistemi.Helper.*;
+import TurizmAcenteSistemi.Model.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +22,7 @@ public class IletisimGUI extends JFrame
     private JButton btn_kaydet;
     private JPanel pnl_top;
 
-    public IletisimGUI(int y,int c,int oda_id)
+    public IletisimGUI(YonetimGUI main,int y,int c,int oda_id)
     {
         add(wrapper);
         setSize(700,450);
@@ -92,18 +95,33 @@ public class IletisimGUI extends JFrame
             {
                 try
                 {
-                    String sql= "INSERT INTO rezervasyon(oda_id,adsoyad,telefon,eposta,not) VALUES(?,?,?,?,?)";
-                    PreparedStatement ps = DBConnector.getInstance().prepareStatement(sql);
-                    ps.setInt(1,oda_id);
-                    ps.setString(2,fld_adsoyad.getText());
-                    ps.setString(3,fld_telefon.getText());
-                    ps.setString(4,fld_eposta.getText());
-                    ps.setString(5,fld_not.getText());
-                    if(ps.executeUpdate()!=-1)
+                    if(Rezervasyon.add(oda_id,fld_adsoyad.getText(),fld_telefon.getText(),fld_eposta.getText(),fld_not.getText()))
                     {
+                        String adsoyad="";
+                        for (Component ct : pnl_misafir_bilgileri.getComponents())
+                        {
+                            String sql2= "SELECT id from rezervasyon WHERE oda_id = "+oda_id;
+                            PreparedStatement ps2 = DBConnector.getInstance().prepareStatement(sql2);
+                            ResultSet rs2 = ps2.executeQuery();
+                            int rezervasyon_id=0;
+                            while(rs2.next())
+                                rezervasyon_id=rs2.getInt("id");
+                            if (ct instanceof JTextField)
+                            {
+                                JTextField textField = (JTextField) ct;
+                                GridBagConstraints gbc = gridBagLayout.getConstraints(textField);
+                                if (gbc.gridx == 1)
+                                    adsoyad = textField.getText();
+                                else if (gbc.gridx == 2)
+                                    Misafir.add(rezervasyon_id,adsoyad,textField.getText());
+                            }
+                        }
                         Helper.showMsg("done");
                         dispose();
+                        main.refreshRezervasyon();
                     }
+                    else
+                        Helper.showMsg("error");
                 }
                 catch(SQLException er)
                 {
@@ -111,11 +129,5 @@ public class IletisimGUI extends JFrame
                 }
             }
         });
-    }
-
-    public static void main(String[] args)
-    {
-        Helper.setLayout();
-        IletisimGUI i = new IletisimGUI(2,3,2);
     }
 }

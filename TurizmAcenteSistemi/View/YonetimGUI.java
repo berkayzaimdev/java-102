@@ -1,7 +1,6 @@
 package TurizmAcenteSistemi.View;
 import TurizmAcenteSistemi.Helper.*;
-import TurizmAcenteSistemi.Model.Oda;
-import TurizmAcenteSistemi.Model.Otel;
+import TurizmAcenteSistemi.Model.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -41,7 +40,7 @@ public class YonetimGUI extends JFrame
     private JCheckBox chk_kasa;
     private JCheckBox chk_projeksiyon;
     private JComboBox<String> cmb_oda_otel;
-    private JTable table1;
+    private JTable tbl_rezervasyon_list;
     private JButton btn_rezervasyon;
     private JTextField fld_otel_sehir;
     private JTextField fld_otel_bolge;
@@ -49,12 +48,16 @@ public class YonetimGUI extends JFrame
     private JCheckBox[] chk_otel_pansiyon={chk01,chk02,chk03,chk04,chk05,chk06,chk07};
     private JCheckBox[] chk_otel_tesis={chk11,chk12,chk13,chk14,chk15,chk16,chk17};
     private JPopupMenu otelMenu;
+    private JPopupMenu rezervasyonMenu;
 
 
     private DefaultTableModel mdl_otel_list;
     private Object[] row_otel_list;
     private DefaultTableModel mdl_oda_list;
     private Object[] row_oda_list;
+    private DefaultTableModel mdl_rezervasyon_list;
+    private Object[] row_rezervasyon_list;
+
 
     public YonetimGUI()
     {
@@ -70,6 +73,10 @@ public class YonetimGUI extends JFrame
         JMenuItem fiyatlandirMenu = new JMenuItem("Fiyatlandır");
         otelMenu.add(ozelliklerMenu);
         otelMenu.add(fiyatlandirMenu);
+
+        rezervasyonMenu = new JPopupMenu();
+        JMenuItem misafirlerMenu = new JMenuItem("Misafirler");
+        rezervasyonMenu.add(misafirlerMenu);
 
         mdl_otel_list = new DefaultTableModel();
         Object[] col_otel_list = {"ID","Otel Adı","Şehir","Bölge","Adres","Eposta","Telefon Numarası","Yıldız"};
@@ -87,6 +94,14 @@ public class YonetimGUI extends JFrame
         refreshOda();
         tbl_oda_list.setModel(mdl_oda_list);
         refreshCmbOtel();
+
+        mdl_rezervasyon_list = new DefaultTableModel();
+        Object[] col_rezervasyon_list = {"ID","Oda ID","Ad Soyad","Telefon","E-posta","Rezervasyon Notu"};
+        mdl_rezervasyon_list.setColumnIdentifiers(col_rezervasyon_list);
+        row_rezervasyon_list = new Object[col_rezervasyon_list.length];
+        refreshRezervasyon();
+        tbl_rezervasyon_list.setModel(mdl_rezervasyon_list);
+        tbl_rezervasyon_list.setComponentPopupMenu(rezervasyonMenu);
 
         btn_otel_add.addActionListener(e ->
         {
@@ -139,6 +154,12 @@ public class YonetimGUI extends JFrame
             FiyatlandirGUI f = new FiyatlandirGUI(Otel.getFetch(select_id));
         });
 
+        misafirlerMenu.addActionListener(e->
+        {
+            int select_id = Integer.parseInt(tbl_rezervasyon_list.getValueAt(tbl_rezervasyon_list.getSelectedRow(),0).toString());
+            MisafirlerGUI m = new MisafirlerGUI(Misafir.getList(select_id));
+        });
+
         btn_oda_add.addActionListener(e ->
         {
             if(cmb_oda_tip.getSelectedIndex()==0||Helper.isFieldEmpty(fld_oda_stok) ||Helper.isFieldEmpty(fld_oda_yatak) ||Helper.isFieldEmpty(fld_oda_m2))
@@ -166,7 +187,7 @@ public class YonetimGUI extends JFrame
 
         btn_rezervasyon.addActionListener(e ->
         {
-            AramaGUI a = new AramaGUI();
+            AramaGUI a = new AramaGUI(this);
         });
     }
 
@@ -211,13 +232,29 @@ public class YonetimGUI extends JFrame
         }
     }
 
+    public void refreshRezervasyon()
+    {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_rezervasyon_list.getModel();
+        clearModel.setRowCount(0);
+        for(Rezervasyon obj : Rezervasyon.getList())
+        {
+            int i=0;
+            row_rezervasyon_list[i++] = obj.getId();
+            row_rezervasyon_list[i++] = obj.getOda_id();
+            row_rezervasyon_list[i++] = obj.getAdsoyad();
+            row_rezervasyon_list[i++] = obj.getTelefon();
+            row_rezervasyon_list[i++] = obj.getEposta();
+            row_rezervasyon_list[i] = obj.getNote();
+            mdl_rezervasyon_list.addRow(row_rezervasyon_list);
+        }
+    }
+
     public void refreshCmbOtel()
     {
         cmb_oda_otel.removeAllItems();
         for(Otel obj : Otel.getList())
             cmb_oda_otel.addItem(obj.getAd());
     }
-
 
     public static void main(String[] args)
     {

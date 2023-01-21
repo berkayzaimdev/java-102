@@ -14,11 +14,11 @@ public class AramaGUI extends JFrame
     private JSpinner spn_yetiskin_sayisi;
     private JSpinner spn_cocuk_sayisi;
 
-    public AramaGUI()
+    public AramaGUI(YonetimGUI main)
     {
         add(wrapper);
         Helper.setLayout();
-        setLocation(TurizmAcenteSistemi.Helper.Helper.screenCenterPoint("x",getSize()), TurizmAcenteSistemi.Helper.Helper.screenCenterPoint("y",getSize()));
+        setLocation(Helper.screenCenterPoint("x",getSize()), Helper.screenCenterPoint("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setSize(350,320);
@@ -40,7 +40,7 @@ public class AramaGUI extends JFrame
                 else
                 {
                     dispose();
-                    RezervasyonGUI r = new RezervasyonGUI(o,spn_yetiskin_sayisi.getValue().toString(),spn_cocuk_sayisi.getValue().toString(),fld_otel_giris.getText(),fld_otel_cikis.getText());
+                    RezervasyonGUI r = new RezervasyonGUI(main,o,spn_yetiskin_sayisi.getValue().toString(),spn_cocuk_sayisi.getValue().toString(),fld_otel_giris.getText(),fld_otel_cikis.getText());
                 }
             }
         });
